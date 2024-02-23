@@ -2,7 +2,11 @@
  // Ensure correct import path
 const { Sequelize, DataTypes }= require('sequelize');
 
-const sequelize = new Sequelize('sqlite::memory:');
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: './database.sqlite'
+});
+
 const MSG = sequelize.define('MSG', {
   message: {
     type: DataTypes.STRING,
