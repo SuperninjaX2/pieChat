@@ -3,17 +3,23 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const { Sequelize } = require('sequelize');
-const DB = require('./config/database'); // Corrected import path
+ // Corrected import path
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const msgModel = require("./models/Message.js"); // Properly declared and formatted import
+const msgModel = require("./models/Message"); // Properly declared and formatted import
 
 const app = express();
 
-// Sequelize initialization function
-const initSequelize = async () => {
-  // Initialize Sequelize here
-};
+// Middleware setup
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Routes setup
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 // Start server
 const startServer = () => {
@@ -32,23 +38,12 @@ const startServer = () => {
   });
 };
 
-// Middleware setup
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Routes setup
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
 // Initialize Sequelize and start server
 const main = async () => {
-  await initSequelize();
-  startServer();
-};
+    await msgModel.sync({ force: true });
 
+    startServer()
+}
 // Entry point
 main();
 
