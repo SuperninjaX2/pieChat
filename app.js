@@ -10,6 +10,7 @@ const msgModel = require("./models/Message"); // Properly declared and formatted
 
 const app = express();
 
+app.set('view engine', 'hbs');
 // Middleware setup
 app.use(logger('dev'));
 app.use(express.json());
