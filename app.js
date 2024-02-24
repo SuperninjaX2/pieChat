@@ -11,6 +11,7 @@ const exphbs = require('hbs'); // Import Express Handlebars
 
 const app = express();
 
+app.set('view engine', 'hbs');
 // Middleware setup
 app.use(logger('dev'));
 app.use(express.json());
