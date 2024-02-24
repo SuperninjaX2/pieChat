@@ -5,7 +5,7 @@ const logger = require('morgan');
 const { Sequelize } = require('sequelize');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const sendRouter = require("./routes/Send");
+
 const msgModel = require("./models/Message");
 const exphbs = require('hbs'); // Import Express Handlebars
 
@@ -26,8 +26,40 @@ app.set('view engine', 'hbs');
 // Routes setup
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/data', sendRouter);
+app.get('/msgs', function(req, res) {
+  msgModel.findAll()
+    .then(messages => {
+      res.json(messages);
+    })
+    .catch(err => {
+      console.error('Error fetching messages:', err);
+      res.status(500).send('Error fetching messages');
+    });
+});
 
+app.post('/send', function(req, res) {
+  // Extract JSON data from request body
+  const { message } = req.body;
+
+  // Check if message is provided
+  if (!message) {
+    return res.status(400).json({ error: 'Message is required' });
+  }
+
+  // Create a new message instance
+  const newMsg = msgModel.build({
+    message: message
+  });
+
+  // Save the message to the database
+  newMsg.save()
+    .then(savedMsg => {
+      res.status(201).json(savedMsg);
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'Internal server error' });
+    });
+});
 // Start server
 const startServer = () => {
   const PORT = process.env.PORT || 8080;
