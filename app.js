@@ -26,7 +26,6 @@ app.set('view engine', 'hbs');
 // Routes setup
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-<<<<<<< HEAD
 app.get('/msgs', function(req, res) {
   msgModel.findAll()
     .then(messages => {
@@ -38,8 +37,6 @@ app.get('/msgs', function(req, res) {
     });
 });
 
-=======
->>>>>>> 7a70e5b2c32763cb1768c435da3b9a0fecf2668e
 app.post('/send', function(req, res) {
   // Extract JSON data from request body
   const { message } = req.body;
