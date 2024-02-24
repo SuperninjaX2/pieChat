@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node copy.js && node ./bin/www",
-    "term": "nodemon app.js"
+    "start": "node ./bin/www",
+    "term": "nodemon app.js",
+    "sync":"nodemon copy.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
