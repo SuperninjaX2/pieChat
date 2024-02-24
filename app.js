@@ -3,10 +3,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const { Sequelize } = require('sequelize');
- // Corrected import path
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const msgModel = require("./models/Message"); // Properly declared and formatted import
+const sendRouter = require("./routes/addMsgs");
+const msgModel = require("./models/Message");
+const exphbs = require('hbs'); // Import Express Handlebars
 
 const app = express();
 
@@ -17,9 +18,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Configure Express Handlebars
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
+
 // Routes setup
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/send', sendRouter);
 
 // Start server
 const startServer = () => {
@@ -42,8 +49,9 @@ const startServer = () => {
 const main = async () => {
     await msgModel.sync({ force: true });
 
-    startServer()
+    startServer();
 }
+
 // Entry point
 main();
 
