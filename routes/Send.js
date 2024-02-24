@@ -4,7 +4,7 @@ let MSG = require("../models/Message")
 var router = express.Router();
 
 /* POST send message route. */
-router.post('/send', function(req, res, next) {
+router.post('/data', function(req, res) {
   // Extract JSON data from request body
   const { message } = req.body;
 

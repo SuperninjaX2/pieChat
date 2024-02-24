@@ -5,13 +5,12 @@ const logger = require('morgan');
 const { Sequelize } = require('sequelize');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const sendRouter = require("./routes/addMsgs");
+const sendRouter = require("./routes/Send");
 const msgModel = require("./models/Message");
 const exphbs = require('hbs'); // Import Express Handlebars
 
 const app = express();
 
-app.set('view engine', 'hbs');
 // Middleware setup
 app.use(logger('dev'));
 app.use(express.json());
@@ -27,7 +26,7 @@ app.set('view engine', 'hbs');
 // Routes setup
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/send', sendRouter);
+app.use('/data', sendRouter);
 
 // Start server
 const startServer = () => {

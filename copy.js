@@ -11,15 +11,19 @@ if (!fs.existsSync(sourceDir)) {
     process.exit(1);
 }
 
-// Create destination directory if it does not exist
+// Check if destination directory exists
 if (!fs.existsSync(destinationDir)) {
     fs.mkdirSync(destinationDir, { recursive: true });
 }
 
 try {
     // Copy files from source directory to destination directory
-    execSync(`cp -r ${sourceDir}/* ${destinationDir}`);
-    console.log('Folder copied successfully.');
+    execSync(`rsync -av ${sourceDir}/ ${destinationDir}`);
+    console.log('Files copied from source to destination successfully.');
+
+    // Copy files from destination directory to source directory
+    execSync(`rsync -av ${destinationDir}/ ${sourceDir}`);
+    console.log('Files copied from destination to source successfully.');
 } catch (err) {
-    console.error('Error copying folder:', err);
+    console.error('Error copying files:', err);
 }
